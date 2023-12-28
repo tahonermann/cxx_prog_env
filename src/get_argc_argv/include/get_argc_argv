@@ -1,0 +1,17 @@
+// Copyright (c) 2023, Tom Honermann
+//
+// This file is distributed under the MIT License. See the accompanying file
+// LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
+// and conditions.
+
+#if !defined(CXX_PROG_ENV_SRC_GET_ARGC_ARGV_GET_ARGC_ARGV)
+#define CXX_PROG_ENV_SRC_GET_ARGC_ARGV_GET_ARGC_ARGV
+
+#include "get_argc_argv.h"
+
+namespace std {
+using ::_Get_argc;
+using ::_Get_argv;
+}
+
+#endif // CXX_PROG_ENV_SRC_GET_ARGC_ARGV_GET_ARGC_ARGV

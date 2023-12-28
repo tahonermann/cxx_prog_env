@@ -1,0 +1,66 @@
+// Copyright (c) 2023, Tom Honermann
+//
+// This file is distributed under the MIT License. See the accompanying file
+// LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
+// and conditions.
+
+#if !defined(CXX_PROG_ENV_SRC_TEXT_ENCODING_TEXT_ENCODING)
+#define CXX_PROG_ENV_SRC_TEXT_ENCODING_TEXT_ENCODING
+
+#include <cstddef>
+#include <string_view>
+
+
+class text_encoding {
+public:
+  static constexpr std::size_t max_name_length = 63;
+
+#if 0
+  enum class id : int_least32_t {
+    ...
+  };
+  using enum id;
+#endif
+
+  constexpr text_encoding() = default;
+  constexpr explicit text_encoding(std::string_view) noexcept;
+#if 0
+  constexpr text_encoding(id) noexcept;
+#endif
+
+  friend constexpr bool operator==(const text_encoding&,
+                                   const text_encoding&) noexcept;
+#if 0
+  friend constexpr bool operator==(const text_encoding&, id) noexcept;
+#endif
+
+#if 0
+  struct aliases_view;
+  constexpr aliases_view aliases() const noexcept;
+#endif
+
+  constexpr const char* name() const noexcept {
+    return encname;
+  }
+
+#if 0
+  constexpr id mib() const noexcept;
+#endif
+
+#if 0
+  static consteval text_encoding literal() noexcept;
+#endif
+
+  static text_encoding environment();
+  static text_encoding wide_environment();
+
+#if 0
+  template<id>
+  static bool environment_is();
+#endif
+
+private:
+  char encname[max_name_length+1] = {0};
+};
+
+#endif // CXX_PROG_ENV_SRC_TEXT_ENCODING_TEXT_ENCODING

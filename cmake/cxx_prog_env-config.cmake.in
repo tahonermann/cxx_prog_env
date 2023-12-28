@@ -1,0 +1,13 @@
+# Copyright (c) 2023, Tom Honermann
+#
+# This file is distributed under the MIT License. See the accompanying file
+# LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
+# and conditions.
+
+@PACKAGE_INIT@
+
+include(${CMAKE_CURRENT_LIST_DIR}/cxx_prog_env.cmake)
+
+set_and_check(cxx_prog_env_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
+set(cxx_prog_env_LIBRARIES cxx_prog_env::cxx_prog_env)
+check_required_components(cxx_prog_env)

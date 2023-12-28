@@ -1,0 +1,45 @@
+// Copyright (c) 2023, Tom Honermann
+//
+// This file is distributed under the MIT License. See the accompanying file
+// LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
+// and conditions.
+
+#if !defined(CXX_PROG_ENV_INCLUDE_DETAIL_IOSTRING_REF)
+#define CXX_PROG_ENV_INCLUDE_DETAIL_IOSTRING_REF
+
+#include <filesystem>
+#include <ranges>
+#include <span>
+#include <string>
+#include <utility>
+
+
+namespace detail {
+
+class iostring_ref {
+public:
+  using value_type = char;
+
+  iostring_ref(std::span<const value_type> raw_iostring)
+    : raw_iostring(raw_iostring)
+  {}
+
+  std::span<const value_type> data() const {
+    return raw_iostring;
+  }
+
+  std::string as_string() const;
+  std::wstring as_wstring() const;
+  std::u8string as_u8string() const;
+  std::u16string as_u16string() const;
+  std::u32string as_u32string() const;
+  std::filesystem::path as_path() const;
+
+private:
+  std::span<const value_type> raw_iostring;
+};
+
+} // namespace detail
+
+
+#endif // CXX_PROG_ENV_INCLUDE_DETAIL_IOSTRING_REF

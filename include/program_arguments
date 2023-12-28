@@ -1,0 +1,37 @@
+// Copyright (c) 2023, Tom Honermann
+//
+// This file is distributed under the MIT License. See the accompanying file
+// LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
+// and conditions.
+
+#if !defined(CXX_PROG_ENV_INCLUDE_PROGRAM_ARGUMENTS)
+#define CXX_PROG_ENV_INCLUDE_PROGRAM_ARGUMENTS
+
+#include "detail/iostring_ref"
+#include <ranges>
+#include <span>
+#include <utility>
+
+
+namespace detail {
+
+using args_view =
+  std::ranges::transform_view<
+    std::span<const char *const>, 
+    iostring_ref(*)(const char *)
+  >;
+
+class program_arguments_view
+  : public std::ranges::view_interface<program_arguments_view>
+{
+public:
+  auto begin() const -> decltype(std::declval<args_view>().begin());
+  auto end() const -> decltype(std::declval<args_view>().end());
+};
+
+} // namespace detail
+
+extern const detail::program_arguments_view program_arguments;
+
+
+#endif // CXX_PROG_ENV_INCLUDE_PROGRAM_ARGUMENTS
