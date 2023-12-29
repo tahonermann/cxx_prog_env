@@ -12,7 +12,7 @@ namespace detail {
 
 std::string iostring_ref::as_string() const {
   // FIXME: Add conversion to the ordinary character encoding.
-  return { raw_iostring.begin(), raw_iostring.end() };
+  return { raw_data.begin(), raw_data.end() };
 }
 
 std::wstring iostring_ref::as_wstring() const {

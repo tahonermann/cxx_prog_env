@@ -19,13 +19,18 @@ namespace detail {
 class iostring_ref {
 public:
   using value_type = char;
+  using view_type = std::span<const value_type>;
 
-  iostring_ref(std::span<const value_type> raw_iostring)
-    : raw_iostring(raw_iostring)
+  iostring_ref(view_type raw_data)
+    : raw_data(raw_data)
   {}
 
-  std::span<const value_type> data() const {
-    return raw_iostring;
+  const value_type* data() const {
+    return raw_data.data();
+  }
+
+  view_type view() const {
+    return raw_data;
   }
 
   std::string as_string() const;
@@ -36,7 +41,7 @@ public:
   std::filesystem::path as_path() const;
 
 private:
-  std::span<const value_type> raw_iostring;
+  view_type raw_data;
 };
 
 } // namespace detail
