@@ -43,6 +43,11 @@ install(
   COMPONENT Development
 )
 install(
+  DIRECTORY examples/
+  DESTINATION examples
+  COMPONENT Examples
+)
+install(
   EXPORT cxx_prog_env
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cxx_prog_env
   COMPONENT Development
@@ -65,4 +70,16 @@ add_custom_target(
   COMMAND
     ${CMAKE_COMMAND}
       --install ${CMAKE_BINARY_DIR} --prefix install
+  COMMAND
+    ${CMAKE_COMMAND}
+      -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}/install/lib/cmake/cxx_prog_env
+      -B ${CMAKE_BINARY_DIR}/install/examples/build
+      -S ${CMAKE_BINARY_DIR}/install/examples
+  COMMAND
+    ${CMAKE_COMMAND}
+      --build ${CMAKE_BINARY_DIR}/install/examples/build
+  COMMAND
+    ${CMAKE_COMMAND}
+      -E chdir ${CMAKE_BINARY_DIR}/install/examples/build
+      ${CMAKE_CTEST_COMMAND}
 )
