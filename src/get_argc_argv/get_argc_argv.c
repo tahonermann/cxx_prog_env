@@ -17,6 +17,8 @@ static int init_args(int ac, char **av, char **envp) {
   argc = ac;
   argv = av;
 }
+// FIXME: This initialization executes before main() is invoked, but not before
+// FIXME: dynamic initializers for (all) global variables are executed.
 __attribute__((section(".init_array"))) static void *init_args_ptr = &init_args;
 #else /* } */
 
