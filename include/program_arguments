@@ -15,11 +15,19 @@
 
 namespace detail {
 
+#if defined(_WIN32)
 using args_view =
   std::ranges::transform_view<
-    std::span<const char *const>, 
+    std::span<const wchar_t *const>,
+    iostring_ref(*)(const wchar_t *)
+  >;
+#else
+using args_view =
+  std::ranges::transform_view<
+    std::span<const char *const>,
     iostring_ref(*)(const char *)
   >;
+#endif
 
 class program_arguments_view
   : public std::ranges::view_interface<program_arguments_view>

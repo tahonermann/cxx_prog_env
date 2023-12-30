@@ -62,14 +62,23 @@ install(
 # that the examples build and run as expected in the installation location.
 # This target explicitly performs a build since the 'install' target doesn't
 # have a dependency on 'all'.
+# FIXME: The default build type used for the '--build' step differs from the
+# FIXME: default build type used for the '--install' step when using the
+# FIXME: "Visual Studio 17 2022" generator. The generator expressions involving
+# FIXME: $<CONFIG> below avoid this inconsistency by passing a '--config'
+# FIXME: option ('-C' for ctest) when $<CONFIG> is not an empty string.
+# FIXME: See https://gitlab.kitware.com/cmake/cmake/-/issues/25548.
 add_custom_target(
   test-install
   COMMAND
     ${CMAKE_COMMAND}
       --build ${CMAKE_BINARY_DIR}
+      $<$<BOOL:$<CONFIG>>:"--config"> $<$<BOOL:$<CONFIG>>:$<CONFIG>>
   COMMAND
     ${CMAKE_COMMAND}
-      --install ${CMAKE_BINARY_DIR} --prefix install
+      --install ${CMAKE_BINARY_DIR}
+      $<$<BOOL:$<CONFIG>>:"--config"> $<$<BOOL:$<CONFIG>>:$<CONFIG>>
+      --prefix install
   COMMAND
     ${CMAKE_COMMAND}
       -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}/install/lib/cmake/cxx_prog_env
@@ -78,8 +87,9 @@ add_custom_target(
   COMMAND
     ${CMAKE_COMMAND}
       --build ${CMAKE_BINARY_DIR}/install/examples/build
+      $<$<BOOL:$<CONFIG>>:"--config"> $<$<BOOL:$<CONFIG>>:$<CONFIG>>
   COMMAND
     ${CMAKE_COMMAND}
       -E chdir ${CMAKE_BINARY_DIR}/install/examples/build
-      ${CMAKE_CTEST_COMMAND}
+      ${CMAKE_CTEST_COMMAND} $<$<BOOL:$<CONFIG>>:"-C"> $<$<BOOL:$<CONFIG>>:$<CONFIG>>
 )

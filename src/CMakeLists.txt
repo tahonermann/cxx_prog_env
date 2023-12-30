@@ -26,7 +26,7 @@ target_include_directories(cxx_prog_env
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-if(USE_POLYFILL_GET_ARGC_ARGV)
+if(USE_POLYFILL_GET_ARGC_ARGV AND NOT WIN32)
   message(STATUS "Using polyfill for missing WG14 N2948 stdlib.h features")
   target_compile_definitions(cxx_prog_env PRIVATE USE_POLYFILL_GET_ARGC_ARGV)
   target_include_directories(cxx_prog_env PRIVATE get_argc_argv/include)

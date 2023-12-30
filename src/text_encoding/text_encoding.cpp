@@ -19,8 +19,25 @@ const char* get_environment_encoding() {
   return nl_langinfo_l(CODESET, newlocale(LC_CTYPE_MASK, "", (locale_t)0));
 }
 }
-#else /* } */
 
+#elif defined(_WIN32) /* { */
+#include <windows.h>
+
+namespace {
+const char* get_environment_encoding() {
+  // FIXME: Obtain proper names for all code pages.
+  UINT acp = GetACP();
+  switch (acp) {
+    case 1252:
+      return "windows-1252";
+    case 65001:
+      return "utf-8";
+  }
+  return nullptr;
+}
+}
+
+#else /* } */
 #error Unsupported or unrecognized platform
 #endif
 
@@ -48,5 +65,12 @@ text_encoding text_encoding::wide_environment() {
 constexpr bool operator==(const text_encoding& te1,
                           const text_encoding& te2) noexcept
 {
-  return std::strcmp(te1.encname, te2.encname) == 0;
+  const char *p1 = te1.encname;
+  const char *p2 = te2.encname;
+  while (*p1 || *p2) {
+    if (*p1++ != *p2++) {
+      return false;
+    }
+  }
+  return true;
 }

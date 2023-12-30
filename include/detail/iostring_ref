@@ -18,7 +18,11 @@ namespace detail {
 
 class iostring_ref {
 public:
+#if defined(_WIN32)
+  using value_type = wchar_t;
+#else
   using value_type = char;
+#endif
   using view_type = std::span<const value_type>;
 
   iostring_ref(view_type raw_data)
